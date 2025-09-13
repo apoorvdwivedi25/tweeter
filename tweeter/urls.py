@@ -23,7 +23,6 @@ from django.contrib.auth.urls import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tweet/', include('tweetify.urls')),
-    path('', views.tweet_list, name='home'),
     path('tweetify/', include('tweetify.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 
