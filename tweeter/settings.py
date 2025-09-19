@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&!804j2kq6ajtxb#8443y=$*!is_-ww&4ri)eal^14)#vn3y=+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tweetify.onrender.com']
 
 
 # Application definition
@@ -134,3 +134,4 @@ LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/tweet/'
 
 LOGOUT_REDIRECT_URL = '/tweet/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
