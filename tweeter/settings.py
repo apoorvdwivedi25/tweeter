@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&!804j2kq6ajtxb#8443y=$*!is_-ww&4ri)eal^14)#vn3y=+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tweetify.onrender.com']
+ALLOWED_HOSTS = ['tweetify.onrender.com','tweeter-2epk.onrender.com']
 
 
 # Application definition
