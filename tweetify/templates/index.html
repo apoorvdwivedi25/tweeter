@@ -1,8 +1,16 @@
 {% extends "layout.html" %}
+
 {% block title %}
 Tweet with Django
 {% endblock %}
 
 {% block content %}
-<h1  class="text-center mt-4"> Start your Tweet</h1>
+<div class="container mt-5 text-center">
+  <h1 class="mb-3">Welcome to Tweetify</h1>
+  <p class="lead">Share your thoughts with the world—images and all—powered by Django.</p>
+  <div class="mt-4">
+    <a href="{% url 'tweet_create' %}" class="btn btn-primary me-2">Create a Tweet</a>
+    <a href="{% url 'tweet_list' %}" class="btn btn-outline-secondary">View Tweets</a>
+  </div>
+</div>
 {% endblock %}

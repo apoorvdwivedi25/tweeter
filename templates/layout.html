@@ -5,62 +5,76 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <title>
-    {% block title %}
-    Tweeter with Django
-    {% endblock %}
-  </title>
+  <title>{% block title %}Tweeter with Django{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Tweetify your Views</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{% url 'tweet_list' %}">Tweetify your Views</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'tweet_list' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Explore</a>
+          </li>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <a href="{%url 'tweet_list'%}" class = "btn btn-primary mx-2">Tweetify Home</a>
-            {%if user.is_authenticated%}
-            <form method = "post" action = "{% url 'logout'%}">
-              {%csrf_token%}
-              <button class="btn btn-danger" type= "submit">Logout</button>
-            </form>
-            {%else%}
-            <a href="{%url 'register'%}" class = "btn btn-primary mx-2">Register</a>
-            <a href="{%url 'login'%}" class = "btn btn-success mx-2">Login</a>
-            {%endif%}
-          </div>
-        </div>
-      </nav>
-    <div class = "container">
-        {% block content %}
-        {% endblock %}
+          </li>
+        </ul>
+
+        <form class="d-flex me-2" role="search" method="get" action="{% url 'tweet_list' %}">
+          <input class="form-control me-2" type="search" name="q" value="{{ request.GET.q }}" placeholder="Search tweets or users..." aria-label="Search">
+          <button class="btn btn-outline-success me-2" type="submit">Search</button>
+          {% if request.GET.q %}
+            <a href="{% url 'tweet_list' %}" class="btn btn-outline-secondary">Clear</a>
+          {% endif %}
+        </form>
+        
+
+        {% if user.is_authenticated %}
+        <span class="navbar-text me-3 text-light">
+          Welcome, <strong>{{ user.username }}</strong>
+        </span>
+        <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="btn btn-danger me-2" type="submit">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'register' %}" class="btn btn-primary me-2">Register</a>
+        <a href="{% url 'login' %}" class="btn btn-success me-2">Login</a>
+        {% endif %}
+
+      </div>
     </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container py-4">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-light text-center py-3 mt-auto">
+    <div class="container">
+      <small>&copy; {{ now|date:"Y" }} Tweetify. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1D6sV1p6nU6YkD1z5zZl5q1z5zZl5q1z5zZl5q1z5zZl" crossorigin="anonymous"></script>
 </body>
 </html>

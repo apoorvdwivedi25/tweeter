@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Tweet
 from .forms import TweetForm, UserRegistrationForm
+from django.db.models import Q
 
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
@@ -64,3 +65,14 @@ def register(request):
         form = UserRegistrationForm()
     
     return render (request, 'registration/register.html',{'form': form}) 
+
+def tweet_list(request):
+    query = request.GET.get('q')
+    tweets = Tweet.objects.all().order_by('-created_at')
+
+    if query:
+        tweets = tweets.filter(
+            Q(text__icontains=query) | Q(user__username__icontains=query)
+        )
+
+    return render(request, 'tweet_list.html', {'tweets': tweets, 'query': query})
